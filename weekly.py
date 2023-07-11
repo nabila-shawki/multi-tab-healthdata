@@ -20,7 +20,7 @@ def get_week_info(df):
 
 # global variables
 #
-fname = "https://raw.githubusercontent.com/nabila-shawki/healthdata-dash-plotly/main/data/week_3.csv"
+fname = "https://raw.githubusercontent.com/nabila-shawki/multi-tab-healthdata/main/data/week_4.csv"
 start_date = pd.to_datetime('2023-06-05')
 end_date = pd.to_datetime('2023-07-30')
 dates = pd.date_range(start='2023-06-05', end='2023-07-30', freq='D')
@@ -50,13 +50,14 @@ weekly_layout = html.Div(
                         dcc.Dropdown(
                             id="week-dropdown",
                             multi=False,
-                            #value=20,
+                            value=week_list[0],
                             # options=[
                             #     {"label": "10", "value": 10},
                             #     {"label": "20", "value": 20},
                             #     {"label": "30", "value": 30},
                             # ],
-                            options=[{'label': week_str, 'value': week_str} for week_str in week_list],                    
+                            options=[{'label': week_str, 'value': week_str} for week_str in week_list],  
+
                             clearable=False,
                             persistence=True,
                             persistence_type='session',
@@ -156,10 +157,10 @@ def display_value(week_num):
         hole=0.7,
         color=value_counts.index,
         color_discrete_map={  0: '#cccccc', 1: '#2E86C1'},
-        labels={'label': 'Value'},
-         
+        labels={'label': 'Value'},        
         
     )
+
     # hiding legend in pyplot express.
     fig.update_traces(showlegend=False,
                       textinfo='none',

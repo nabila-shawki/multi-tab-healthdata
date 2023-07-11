@@ -9,6 +9,7 @@ from daily import daily_layout
 from weekly import weekly_layout
 from select_range import range_layout
 
+server = app.server
 
 # our app's Tabs *********************************************************
 app_tabs = html.Div(
