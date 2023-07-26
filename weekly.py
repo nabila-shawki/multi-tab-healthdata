@@ -96,11 +96,16 @@ weekly_layout = html.Div(
                 dbc.Row(html.Div(id='progress-bar')),
                 dbc.Row(html.Div(id='move-progress-bar')),
                 dbc.Row(html.Div(id='heart-rate')),
-                ]
+
+                
+                #dbc.Row(html.Div(id='avg-weight')),
+                ],
+                style = {'margin-left':'7px', 'margin-top':'100px'} 
 
                 )
 
-            ]
+            ],
+            
         ),
         dbc.Row(
             [
