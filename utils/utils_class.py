@@ -27,6 +27,18 @@ def read_dat(fname, start_date, end_date, target_count):
 #
 # end of method
 
+# read and filter the data for further processing
+#
+def read_daily_dat(fname):
+    
+    android_dat = AndroidDat(fname)
+    android_dat.read_dat()
+    android_dat.convert_units()
+    
+    return android_dat   
+#
+# end of method
+
 def extract_dates(string):
   """Extracts the two dates from the given string.
 

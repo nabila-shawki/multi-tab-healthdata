@@ -11,8 +11,8 @@ from app import app
 #
 fname = "https://raw.githubusercontent.com/nabila-shawki/multi-tab-healthdata/main/data/week_4.csv"
 start_date = pd.to_datetime('2023-06-05')
-end_date = pd.to_datetime('2023-07-30')
-dates = pd.date_range(start='2023-06-05', end='2023-07-30', freq='D')
+end_date = pd.to_datetime('2023-07-23')
+dates = pd.date_range(start='2023-06-05', end='2023-07-23', freq='D')
 target_count = 2000 # steps
 target_move = 20 # minutes
 

@@ -1,6 +1,6 @@
 import plotly.express as px
 from utils.AndroidDat import AndroidDat
-from utils.utils_class import read_dat
+from utils.utils_class import read_dat, read_daily_dat
 import dash_bootstrap_components as dbc
 import dash
 from dash import html, dcc
@@ -15,10 +15,10 @@ daily_csv = "https://raw.githubusercontent.com/nabila-shawki/multi-tab-healthdat
 
 # get the filtered dat
 #
-fname = "https://raw.githubusercontent.com/nabila-shawki/multi-tab-healthdata/main/data/week_4.csv"
+fname = "https://raw.githubusercontent.com/nabila-shawki/multi-tab-healthdata/main/data/week_9.csv"
 start_date = pd.to_datetime('2023-06-05')
-end_date = pd.to_datetime('2023-07-30')
-dates = pd.date_range(start='2023-06-05', end='2023-07-30', freq='D')
+end_date = pd.to_datetime('2023-07-23')
+dates = pd.date_range(start='2023-06-05', end='2023-07-23', freq='D')
 target_count = 2000 # steps
 target_move = 20 # minutes
 dat = read_dat(fname, start_date, end_date, target_count)
@@ -69,17 +69,21 @@ def update_output(date):
     # get the csv for the selected day
     #
     cur_date = daily_csv.format(date)
-    day_df = pd.read_csv(cur_date)
-
+    day_df_obj = read_daily_dat(cur_date) #pd.read_csv(cur_date)
+    day_df = day_df_obj.filtered_df
+    
     day_df['Start time'] = pd.to_datetime(day_df['Start time'], format='%H:%M:%S.%f%z')
+    
     day_df['End time'] = pd.to_datetime(day_df['End time'], format='%H:%M:%S.%f%z')
+    #day_df['End datetime'] = pd.to_datetime(date.astype(str) + ' ' + day_df['End time'].astype(str))
 
+    print(day_df)
     # Create a new column for the hourly interval
     day_df['Hourly interval'] = day_df['Start time'].dt.floor('H')
 
     # Group the data by hourly interval and calculate the mean for each column
     averaged_data = day_df.groupby('Hourly interval').mean()
-
+    print(averaged_data) 
     # Remove unnecessary columns
     #averaged_data = averaged_data.drop(columns=['Start time', 'End time'])
 
@@ -88,7 +92,8 @@ def update_output(date):
 
     # Update the data attribute with the averaged data
     day_df = averaged_data
-    
+    day_df['Hourly interval'] = day_df['Hourly interval'].dt.time
+
     fig = px.bar(day_df, x='Hourly interval', y='Step count')
 
     return fig
