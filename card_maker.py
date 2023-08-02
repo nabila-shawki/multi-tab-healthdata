@@ -328,7 +328,7 @@ def nested_pie_chart(cur_week):
     #
     active = cur_week.activity_metric["Average activity time"]
     active_percentage = active / 20 * 100
-    active_neg = 100 - active
+    active_neg = 100 - active_percentage
 
     if active_neg < 0:
         active_neg = 0
