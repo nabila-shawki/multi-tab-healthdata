@@ -22,7 +22,7 @@ def make_weight_card(cur_week, prev_week):
             [
                 html.H4(
                     [
-                        "Average Weight"
+                        html.I(className="bi bi-person"), "Average Weight"
                     ]
                 ),
                 html.H4(f"{round(cur_week.health_dat['Average weight'], 2)} lb"),
@@ -45,7 +45,7 @@ def make_heart_card(cur_week):
             [
                 html.H4(
                     [
-                        f"Heart Rate (BPM)"
+                        html.I(className="bi bi-person"), f"Heart Rate (BPM)"
                     ]
                 ),
                 html.H4( f"Max: {int(cur_week.health_dat['Max heart rate'])}, Min: {int(cur_week.health_dat['Min heart rate'])}, Avg: {int(cur_week.health_dat['Average heart rate'])}"),
@@ -77,7 +77,7 @@ def make_calories_card(cur_week, prev_week):
             [
                 html.H4(
                     
-                        ["Average calories burned"]
+                       [html.I(className="bi bi-person"), "Average calories burned"]
                     
                 ),
                 html.H4(f"{round(cur_cal, 2)} kcal"),
@@ -101,7 +101,7 @@ def make_bp_card(cur_week):
             [
                 html.H4(
                     [
-                        "Blood Pressure (mmHg)"
+                        html.I(className="bi bi-person"),"Blood Pressure (mmHg)"
                     ]
                 ),
                 html.H4(f"{int(cur_week.health_dat['Average BP systolic'])}/{int(cur_week.health_dat['Average BP diastolic'])}"),
@@ -119,10 +119,10 @@ def make_step_card(cur_week, prev_week):
     color = "danger" if change < 0 else "success"
     icon = "bi bi-arrow-down" if change < 0 else "bi bi-arrow-up"
 
-    print(cur_week.week_data["Date"], cur_week.week_data["Step count"])
+    #print(cur_week.week_data["Date"], cur_week.week_data["Step count"])
 
     fig = px.bar(cur_week.week_data, x="Date", y="Step count", color="Step count",
-                 color_continuous_scale=["rgba(38, 138, 101, 1)", "rgba(15, 229, 110, 1)"])
+                 color_continuous_scale=['rgba(114, 89, 52, 1)', 'rgba(255, 179, 70, 1)'])
 
     # Disable hover data
     #fig.update_traces(hoverinfo='skip')
@@ -139,20 +139,19 @@ def make_step_card(cur_week, prev_week):
     # Hide x and y labels
     fig.update_layout(xaxis_title="", yaxis_title="")
     fig.update_layout(coloraxis_showscale=False)
-    
-
+    fig.update_layout(yaxis_range=[0,4000])
 
     return dbc.Card(
         html.Div(
             [
                 html.H4(
                     [
-                        "Avg Step Count"
+                        html.I(className="bi bi-smartwatch"), "Avg Step Count"
                     ],
-                    style={"color": "rgba(15, 229, 110, 1)"}
+                    style={"color": "rgba(255, 179, 70, 1)"}
                 ),
                 html.H4([f"{int(cur_week.activity_metric['Average step count'])} / 2000"],
-                        style={"color": "rgba(15, 229, 110, 1)"}),
+                        style={"color": "rgba(255, 179, 70, 1)"}),
                 html.H5(
                     [html.I(className=icon), f"{int(change)}"],
                     className=f"text-{color}",
@@ -172,21 +171,43 @@ def make_active_min_card(cur_week, prev_week):
     color = "danger" if change < 0 else "success"
     icon = "bi bi-arrow-down" if change < 0 else "bi bi-arrow-up"
 
+    
+    fig = px.bar(cur_week.week_data, x="Date", y="Move Minutes count", color="Move Minutes count",
+                 color_continuous_scale=['rgba(77, 50, 98, 1)', 'rgba(163, 122, 194, 0.8)'])
+
+    # Disable hover data
+    #fig.update_traces(hoverinfo='skip')
+
+    # Set the bar colors with a color scheme
+    fig.update_layout(colorway=["#1f77b4"])
+
+    # Set a transparent background
+    fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
+
+    # Set the height and width of the bar chart
+    fig.update_layout(height=300, width=320)
+
+    # Hide x and y labels
+    fig.update_layout(xaxis_title="", yaxis_title="")
+    fig.update_layout(coloraxis_showscale=False)
+    fig.update_layout(yaxis_range=[0,40])
+
     return dbc.Card(
         html.Div(
             [
                 html.H4(
                     [
-                        "Avg Activity time"
+                        html.I(className="bi bi-smartwatch"), "Avg Activity time"
                     ],
-                     style={"color": "rgba(226, 5, 119, 0.8)"}
+                     style={"color": "rgba(163, 122, 194, 0.8)"}
                 ),
                 html.H4([f"{round(cur_week.activity_metric['Average activity time'], 2)} / 20 min"],
-                        style={"color": "rgba(226, 5, 119, 0.8)"}),
+                        style={"color": "rgba(163, 122, 194, 0.8)"}),
                 html.H5(
                     [html.I(className=icon), f"{round(change, 2)} min"],
                     className=f"text-{color}",
                 ),
+                dcc.Graph(figure=fig)
             ],
             className=f"border-{color} border-start border-5",
         ),
@@ -205,7 +226,7 @@ def make_speed_card(cur_week, prev_week):
             [
                 html.H4(
                     [
-                        "Average Speed"
+                        html.I(className="bi bi-smartwatch"), "Average Speed"
                     ]
                 ),
                 html.H4(f"{round(cur_week.activity_metric['Average speed'], 2)} mph"),
@@ -231,7 +252,7 @@ def make_distance_card(cur_week, prev_week):
             [
                 html.H4(
                     [
-                        "Average distance"
+                        html.I(className="bi bi-smartwatch"), "Average distance"
                     ]
                 ),
                 html.H4(f"{round(cur_week.activity_metric['Average distance'], 2)} miles"),
@@ -257,7 +278,7 @@ def make_target_card(cur_week, prev_week):
             [
                 html.H4(
                     [
-                        "Step Target Met"
+                        html.I(className="bi bi-smartwatch"), "Step Target Met"
                     ], 
                     style={"color": "rgba(15, 125, 229, 0.8)"}
                 ),
@@ -325,7 +346,7 @@ def nested_pie_chart(cur_week):
                showlegend=False,
                textinfo='none',
                hoverinfo='none',
-               marker={'colors':['rgba(226, 5, 119, 0.8)','rgba(138, 38, 90, 1)']}), #['#2756f2','#172657']
+               marker={'colors':['rgba(163, 122, 194, 0.8)', 'rgba(77, 50, 98, 1)']}), #['#2756f2','#172657']
     )
         # Individual components (outer donut)
     fig.add_trace(
@@ -338,7 +359,7 @@ def nested_pie_chart(cur_week):
                sort=False,
                textinfo='none',
                hoverinfo='none',
-               marker={'colors':['rgba(15, 229, 110, 1)','rgba(38, 138, 101, 1)']},
+               marker={'colors':['rgba(255, 179, 70, 1)','rgba(114, 89, 52, 1)']},
                showlegend=False),
     )
 

@@ -42,7 +42,7 @@ daily_layout = html.Div([
     dbc.Row([
         dbc.Col([
             dcc.Graph(id='step-bar', figure={})
-        ], width=6),
+        ], width=12),
         # dbc.Col([
         #     dcc.Graph(id='scatter2', figure={})
         # ], width=6)
@@ -95,5 +95,7 @@ def update_output(date):
     day_df['Hourly interval'] = day_df['Hourly interval'].dt.time
 
     fig = px.bar(day_df, x='Hourly interval', y='Step count')
+     # Set a transparent background
+    fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)')
 
     return fig
